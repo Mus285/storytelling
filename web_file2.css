@@ -1,0 +1,121 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+#bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+}
+body{
+    font-family: Arial, sans-serif; 
+}
+header {
+    background-color: rgba(217, 221, 224, 0);
+    text-align: center;
+    padding:15px;
+    color: rgb(250, 252, 253);
+}
+.glass-card {
+    background-color: rgba(3, 3, 3, 0.199);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 20px;
+    padding: 20px 30px;
+    max-width: 700px;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+.container {
+    max-width: 700px;
+    text-align: left;
+    margin: 50px auto;
+    padding: 0 20px auto;
+}
+.card {
+    background-color: rgba(3, 3, 3, 0.199);
+    backdrop-filter: blur(12px);
+    color: aliceblue;
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(231, 231, 224, 0.384);
+    box-shadow: 0 8px 30px 0 rgba(0, 0, 0, 0.2);
+    padding: 25px;
+    border-radius: 20px;
+    text-align: justify;
+}
+footer {
+    text-align: center;
+    width: 100%;
+    display: block;
+    color: aliceblue;
+}
+
+        /* CSS LAMA KAMU YANG UDAH JADI */
+        /* ... */
+        /* ... */
+
+
+        /* PASTE CSS RATING DARI ATAS DI SINI */
+        .rating-box, .feedback-list-box {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 700px;
+            color: #ffffff;
+        }
+
+        .rating-box input[type="text"], 
+        .rating-box textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 12px 0;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .rating-box textarea {
+            height: 80px;
+            resize: vertical;
+        }
+
+        .stars {
+            font-size: 2rem;
+            cursor: pointer;
+            color: #ddd;
+            margin: 6px 0;
+            user-select: none;
+        }
+
+        .rating-box button {
+            width: 100%;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .rating-box button:hover {
+            background: #4338ca;
+            transform: translateY(-2px);
+        }
+
+    
