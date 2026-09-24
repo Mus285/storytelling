@@ -85,9 +85,9 @@
     <footer>&copy;dibuat dengan semangat belajar</footer>
 
     <script>
-        let selectedRating = 0;
+  let selectedRating = 0;
 
-        function setRating(rating) {
+  function setRating(rating) {
     selectedRating = rating;
     const stars = document.querySelectorAll('.stars span');
     stars.forEach((star, index) => {
@@ -98,9 +98,7 @@
       }
     });
   }
-      
-  </script>
-    
+</script>
 
 <!-- Import Firebase App & Realtime Database SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -125,9 +123,14 @@
 
   // Fungsi untuk mengirim rating dan komentar
   function kirimFeedback() {
-    const nama = document.getElementById('namaInput')?.value || "Anonim";
-    const rating = selectedRating || 5; // Pastikan variabel selectedRating sesuai kodingan bintangmu
-    const ulasan = document.getElementById('ulasanInput')?.value;
+    // Menyesuaikan ID elemen HTML milikmu (nama & feedback)
+    const nama = document.getElementById('nama')?.value || "Anonim";
+    const ulasan = document.getElementById('feedback')?.value;
+
+    if (selectedRating === 0) {
+      alert("Pilih rating bintang dulu ya!");
+      return;
+    }
 
     if (!ulasan) {
       alert("Isi ulasan kamu dulu ya!");
@@ -137,12 +140,15 @@
     // Simpan data ke Firebase Realtime Database
     database.ref('feedbacks').push({
       nama: nama,
-      rating: rating,
+      rating: selectedRating,
       ulasan: ulasan,
       waktu: new Date().toLocaleString('id-ID')
     }).then(() => {
-      alert("Ulasan berhasil terkirim!");
-      if(document.getElementById('ulasanInput')) document.getElementById('ulasanInput').value = '';
+      alert("Terima kasih atas feedbacknya!");
+      // Reset form
+      if(document.getElementById('nama')) document.getElementById('nama').value = '';
+      if(document.getElementById('feedback')) document.getElementById('feedback').value = '';
+      setRating(0);
     }).catch((error) => {
       console.error("Gagal mengirim:", error);
       alert("Gagal mengirim ulasan.");
@@ -151,7 +157,8 @@
 
   // Menampilkan ulasan secara Realtime
   database.ref('feedbacks').on('value', (snapshot) => {
-    const container = document.getElementById('containerUlasan');
+    // Menyesuaikan ID container HTML milikmu (feedbackContainer)
+    const container = document.getElementById('feedbackContainer');
     if (!container) return;
     
     container.innerHTML = '';
@@ -159,14 +166,14 @@
       const data = childSnapshot.val();
       const bintang = '★'.repeat(data.rating) + '☆'.repeat(5 - data.rating);
       
-      const card = `
-        <div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; border-radius: 8px;">
-          <strong>${data.nama}</strong> <small style="color: #666;">(${data.waktu})</small><br>
-          <span style="color: gold;">${bintang}</span>
-          <p style="margin: 5px 0 0 0;">${data.ulasan}</p>
-        </div>
+      const card = document.createElement('div');
+      card.style.cssText = 'background: rgba(0, 0, 0, 0.2); padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid rgba(255, 255, 255, 0.1);';
+      card.innerHTML = `
+        <div style="font-weight: bold; color: #fff;">${data.nama} <small style="color: #aaa; font-weight: normal;">(${data.waktu})</small></div>
+        <div style="color: #ffca28; font-size: 1.2rem; margin: 4px 0;">${bintang}</div>
+        <p style="margin: 0; color: #fff;">${data.ulasan}</p>
       `;
-      container.innerHTML = card + container.innerHTML;
+      container.appendChild(card);
     });
   });
 </script>
