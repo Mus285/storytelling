@@ -56,10 +56,8 @@
     </main>
  
 
-    <div class="rating-box">
+   <div class="rating-box">
         <h3>Berikan rating & dan feedback</h3>
-
-        <input type="text" id="nama" placeholder="Nama kamu">
 
         <div class="stars">
             <span onclick="setRating(1)">★</span>
@@ -69,114 +67,110 @@
             <span onclick="setRating(5)">★</span>
         </div>
 
-        <input type="text" id="nama" placeholder="Nama kamu" style="width: 100%; padding: 8px; margin-bottom: 8px; border-radius: 4px; border: 1px solid #ccc;">
+        <!-- CUMA ADA 1 INPUT NAMA -->
+        <input type="text" id="nama" placeholder="Nama kamu" style="width: 100%; padding: 8px; margin-top: 10px; margin-bottom: 8px; border-radius: 4px; border: 1px solid #ccc; box-sizing: border-box;">
         <textarea id="feedback" placeholder="Tuliskan ulasan kamu..."></textarea>
         <button onclick="kirimFeedback()">kirim Feedback</button>
     </div>
 
     <div class="feedback-list-box">
         <h3>Ulasan pengujung</h3>
-        <div id="feedbackContainer">
-
-        </div>
+        <div id="feedbackContainer"></div>
     </div>
-
 
     <footer>&copy;dibuat dengan semangat belajar</footer>
 
     <script>
-  let selectedRating = 0;
+      let selectedRating = 0;
 
-  function setRating(rating) {
-    selectedRating = rating;
-    const stars = document.querySelectorAll('.stars span');
-    stars.forEach((star, index) => {
-      if (index < rating) {
-        star.style.color = '#ffca28';
-      } else {
-        star.style.color = '#ddd';
+      function setRating(rating) {
+        selectedRating = rating;
+        const stars = document.querySelectorAll('.stars span');
+        stars.forEach((star, index) => {
+          if (index < rating) {
+            star.style.color = '#ffca28';
+          } else {
+            star.style.color = '#ddd';
+          }
+        });
       }
-    });
-  }
-</script>
+    </script>
 
-<!-- Import Firebase App & Realtime Database SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <!-- Import Firebase App & Realtime Database SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
-<script>
-  // Konfigurasi Firebase milikmu
-  const firebaseConfig = {
-    apiKey: "AIzaSyDim4wZbc7dDFPV5xI1us2yVXcJrjTYySQ",
-    authDomain: "storytelling-e8feb.firebaseapp.com",
-    databaseURL: "https://storytelling-e8feb-default-rtdb.firebaseio.com",
-    projectId: "storytelling-e8feb",
-    storageBucket: "storytelling-e8feb.firebasestorage.app",
-    messagingSenderId: "58781786618",
-    appId: "1:58781786618:web:ac027630738c12cc6b4443",
-    measurementId: "G-2VH2G96HYC"
-  };
+    <script>
+      // Konfigurasi Firebase milikmu
+      const firebaseConfig = {
+        apiKey: "AIzaSyDim4wZbc7dDFPV5xI1us2yVXcJrjTYySQ",
+        authDomain: "storytelling-e8feb.firebaseapp.com",
+        databaseURL: "https://storytelling-e8feb-default-rtdb.firebaseio.com",
+        projectId: "storytelling-e8feb",
+        storageBucket: "storytelling-e8feb.firebasestorage.app",
+        messagingSenderId: "58781786618",
+        appId: "1:58781786618:web:ac027630738c12cc6b4443",
+        measurementId: "G-2VH2G96HYC"
+      };
 
-  // Inisialisasi Firebase
-  firebase.initializeApp(firebaseConfig);
-  const database = firebase.database();
+      // Inisialisasi Firebase
+      firebase.initializeApp(firebaseConfig);
+      const database = firebase.database();
 
-  // Fungsi untuk mengirim rating dan komentar
-  function kirimFeedback() {
-    // Menyesuaikan ID elemen HTML milikmu (nama & feedback)
-    const nama = document.getElementById('nama')?.value || "Anonim";
-    const ulasan = document.getElementById('feedback')?.value;
+      // Fungsi untuk mengirim rating dan komentar
+      function kirimFeedback() {
+        const nama = document.getElementById('nama')?.value || "Anonim";
+        const ulasan = document.getElementById('feedback')?.value;
 
-    if (selectedRating === 0) {
-      alert("Pilih rating bintang dulu ya!");
-      return;
-    }
+        if (selectedRating === 0) {
+          alert("Pilih rating bintang dulu ya!");
+          return;
+        }
 
-    if (!ulasan) {
-      alert("Isi ulasan kamu dulu ya!");
-      return;
-    }
+        if (!ulasan) {
+          alert("Isi ulasan kamu dulu ya!");
+          return;
+        }
 
-    // Simpan data ke Firebase Realtime Database
-    database.ref('feedbacks').push({
-      nama: nama,
-      rating: selectedRating,
-      ulasan: ulasan,
-      waktu: new Date().toLocaleString('id-ID')
-    }).then(() => {
-      alert("Terima kasih atas feedbacknya!");
-      // Reset form
-      if(document.getElementById('nama')) document.getElementById('nama').value = '';
-      if(document.getElementById('feedback')) document.getElementById('feedback').value = '';
-      setRating(0);
-    }).catch((error) => {
-      console.error("Gagal mengirim:", error);
-      alert("Gagal mengirim ulasan.");
-    });
-  }
+        // Simpan data ke Firebase Realtime Database
+        database.ref('feedbacks').push({
+          nama: nama,
+          rating: selectedRating,
+          ulasan: ulasan,
+          waktu: new Date().toLocaleString('id-ID')
+        }).then(() => {
+          alert("Terima kasih atas feedbacknya!");
+          // Reset form
+          if(document.getElementById('nama')) document.getElementById('nama').value = '';
+          if(document.getElementById('feedback')) document.getElementById('feedback').value = '';
+          setRating(0);
+        }).catch((error) => {
+          console.error("Gagal mengirim:", error);
+          alert("Gagal mengirim ulasan.");
+        });
+      }
 
-  // Menampilkan ulasan secara Realtime
-  database.ref('feedbacks').on('value', (snapshot) => {
-    // Menyesuaikan ID container HTML milikmu (feedbackContainer)
-    const container = document.getElementById('feedbackContainer');
-    if (!container) return;
-    
-    container.innerHTML = '';
-    snapshot.forEach((childSnapshot) => {
-      const data = childSnapshot.val();
-      const bintang = '★'.repeat(data.rating) + '☆'.repeat(5 - data.rating);
-      
-      const card = document.createElement('div');
-      card.style.cssText = 'background: rgba(0, 0, 0, 0.2); padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid rgba(255, 255, 255, 0.1);';
-      card.innerHTML = `
-        <div style="font-weight: bold; color: #fff;">${data.nama} <small style="color: #aaa; font-weight: normal;">(${data.waktu})</small></div>
-        <div style="color: #ffca28; font-size: 1.2rem; margin: 4px 0;">${bintang}</div>
-        <p style="margin: 0; color: #fff;">${data.ulasan}</p>
-      `;
-      container.appendChild(card);
-    });
-  });
-</script>
+      // Menampilkan ulasan secara Realtime
+      database.ref('feedbacks').on('value', (snapshot) => {
+        const container = document.getElementById('feedbackContainer');
+        if (!container) return;
+        
+        container.innerHTML = '';
+        snapshot.forEach((childSnapshot) => {
+          const data = childSnapshot.val();
+          const bintang = '★'.repeat(data.rating) + '☆'.repeat(5 - data.rating);
+          
+          const card = document.createElement('div');
+          card.style.cssText = 'background: rgba(0, 0, 0, 0.2); padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid rgba(255, 255, 255, 0.1);';
+          card.innerHTML = `
+            <div style="font-weight: bold; color: #fff;">${data.nama} <small style="color: #aaa; font-weight: normal;">(${data.waktu})</small></div>
+            <div style="color: #ffca28; font-size: 1.2rem; margin: 4px 0;">${bintang}</div>
+            <p style="margin: 0; color: #fff;">${data.ulasan}</p>
+          `;
+          container.appendChild(card);
+        });
+      });
+    </script>
 
 </body>
 </html>
